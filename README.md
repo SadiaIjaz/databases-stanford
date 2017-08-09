@@ -43,12 +43,14 @@
 - Each attribute has a **type** (or **domain**)
 
 **Student**
+
 ID | name | GPA | photo
 :--: | :--: | :--: | :--:
 123 | Amy | 3.9 | :simple_smile:
 234 | Bob | 3.4 | :disappointed:
 
 **College**
+
 name | state | enrollment
 :--: | :--: | :--:
 stanford | CA | 15,000
