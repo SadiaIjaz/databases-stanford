@@ -46,7 +46,7 @@
 
 ID | name | GPA | photo
 :--: | :--: | :--: | :--:
-123 | Amy | 3.9 | :simple_smile:
+123 | Amy | 3.9 | :smile:
 234 | Bob | 3.4 | :disappointed:
 
 **College**
