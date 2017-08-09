@@ -37,5 +37,41 @@
   - Tunning parameters right can make a significant difference in the performance of the DB system
 
 ## The Relational Model
+- Database = set of named **relations** (or **tables**)
+- Each relation has a set of named **attributes** (or **columns**)
+- Each **tuple** (or **row**) has a value for each attribute
+- Each attribute has a **type** (or **domain**)
+
+**Student**
+ID | name | GPA | photo
+:--: | :--: | :--: | :--:
+123 | Amy | 3.9 | :simple_smile:
+234 | Bob | 3.4 | :disappointed:
+
+**College**
+name | state | enrollment
+:--: | :--: | :--:
+stanford | CA | 15,000
+Berkeley | CA | 36,000
+MIT | MA | 10,000
+
+- **Schema**: structural description of relations in database
+- **Instance**: actual contents at given point in time
+- **NULL**: special value for "unknown" or "undefined"
+- **Key**: attribute whose value is unique in each tuple, or set of attributes whose combined values are unique. E.g:
+  - Student table -> key: `id`
+  - College table -> key: `name state`
+
+### Creating relations (tables) in SQL
+
+```sql
+Create Table Student(ID, name, GPA, photo)
+
+Create Table College(name string, state char(2), enrollment integer)
+```
+
+- Very simple model
+- Query with high-level languages: simple yet expressive
+- Efficient implementations
 
 ## Querying Relational Databases
