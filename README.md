@@ -1,102 +1,23 @@
-# Introduction and Relational Databases
-> :dvd: Annotations from the course [Introduction and Relational Databases](https://lagunita.stanford.edu/courses/DB/RDB/SelfPaced/info) - Stanford
+# Databases
+> :dvd: Annotations from the course [Databases](https://lagunita.stanford.edu/courses/DB/2014/SelfPaced/about) - Stanford
 
-## Table of Contents
- - [Introduction](#introduction)
- - [The Relational Model](#the-relational-model)
- - [Querying Relational Databases](#querying-relational-databases)
-
-## Introduction
-### Key Concepts
-- Data model
-  - How the data is structured
-  - Set of records
-- Schema versus data
-  - The schema sets up the structure of the database
-  - Data is the actual data stored within the schema
-- Data definition language (DDL)
-  - Schema is set in the beginning and doesn't change very much where the data changes rapidly
-- Data manipulation or query language (DML)
-  - Querying and modifying the database
-
-### Key people
-- DBMS implementer
-  - Builds the database system
-- Database designer
-  - Person who establishes the schema for a database
-  - Responsible for figure out how to structure the data before starting the development of the application
-  - It's a surprisingly difficult job when you have very complex data involved
-- Database application developer
-  - Build programs that are going to run on the database, often interfacing between the eventual user and the data itself
-  - Different programs can run on the same database.
-    - E.g: sales database where some applications are inserting sales as they happen while others are analyzing the sales.
-- Database administrator
-  - Person who loads the data, gets the whole thing running and keeps it running smoothly
-  - Very important job for large database applications
-  - DB systems tend to have a number of tunning parameters associated with them
-  - Tunning parameters right can make a significant difference in the performance of the DB system
-
-## The Relational Model
-- Database = set of named **relations** (or **tables**)
-- Each relation has a set of named **attributes** (or **columns**)
-- Each **tuple** (or **row**) has a value for each attribute
-- Each attribute has a **type** (or **domain**)
-
-**Student**
-
-ID | name | GPA | photo
-:--: | :--: | :--: | :--:
-123 | Amy | 3.9 | :smile:
-234 | Bob | 3.4 | :disappointed:
-
-**College**
-
-name | state | enrollment
-:--: | :--: | :--:
-stanford | CA | 15,000
-Berkeley | CA | 36,000
-MIT | MA | 10,000
-
-- **Schema**: structural description of relations in database
-- **Instance**: actual contents at given point in time
-- **NULL**: special value for "unknown" or "undefined"
-- **Key**: attribute whose value is unique in each tuple, or set of attributes whose combined values are unique. E.g:
-  - Student table -> key: `id`
-  - College table -> key: `name state`
-
-### Creating relations (tables) in SQL
-
-```sql
-Create Table Student(ID, name, GPA, photo)
-
-Create Table College(name string, state char(2), enrollment integer)
-```
-
-- Very simple model
-- Query with high-level languages: simple yet expressive
-- Efficient implementations
-
-## Querying Relational Databases
-Steps in creating and using a (relational) database
-
-1. Design schema; create using Data Definition Language (DDL)
-1. "Bulk load" initial data
-1. Repeat: execute queries and modifications
-
-- Some queries are easy to pose; some a bit harder
-- Some are easy for DBMS to execute efficiently; some harder
-- The "query language" can also be used to modify data
-
-### Query Languages
-- Relational Algebra: formal
-- SQL: actual/implemented
-
-IDs of students with GPA > 3.7 applying to Stanford
-
-```sql
-SELECT Student.ID
-FROM Student, Apply
-WHERE Student.ID=Apply.ID
-AND GPA > 3.7
-AND college='Stanford'
-```
+## Annotations
+- **Data Models**
+  - [Introduction and Relational Databases](./src/introduction-and-relational-databases.md)
+  - XML Data
+  - JSON Data
+- **Querying Relational Databases**
+  - Relational Algebra
+  - SQL
+- **Querying XML Databases**
+  - XPath and XQuery
+  - XSLT
+- **Database Design**
+  - Relational Design Theory
+  - Unified Modeling Language
+- **SQL Advanced Features**
+  - Indexes and Transactions
+  - Constraints and Triggers
+  - Views and Authorization
+  - On-line Analytical Processing
+  - Recursion in SQL
