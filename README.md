@@ -77,3 +77,26 @@ Create Table College(name string, state char(2), enrollment integer)
 - Efficient implementations
 
 ## Querying Relational Databases
+Steps in creating and using a (relational) database
+
+1. Design schema; create using Data Definition Language (DDL)
+1. "Bulk load" initial data
+1. Repeat: execute queries and modifications
+
+- Some queries are easy to pose; some a bit harder
+- Some are easy for DBMS to execute efficiently; some harder
+- The "query language" can also be used to modify data
+
+### Query Languages
+- Relational Algebra: formal
+- SQL: actual/implemented
+
+IDs of students with GPA > 3.7 applying to Stanford
+
+```sql
+SELECT Student.ID
+FROM Student, Apply
+WHERE Student.ID=Apply.ID
+AND GPA > 3.7
+AND college='Stanford'
+```
