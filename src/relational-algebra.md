@@ -2,8 +2,8 @@
 > :dvd: Annotations from the course [Relational Algebra](https://lagunita.stanford.edu/courses/DB/RA/SelfPaced/info) - Stanford
 
 ## Table of Contents
-- [Select, Project, Join](#select-project-join)
-- [Set Operators, Renaming, Notation](#set-operators-renaming-notation)
+- [Select, Project, Join](#select---project---join)
+- [Set Operators, Renaming, Notation](#set-operators---renaming---notation)
 
 ## Select - Project - Join
 - Queries over relational databases operate on relations (tables) and they also produce relations as a result.
