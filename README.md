@@ -5,7 +5,7 @@
 - **Data Models**
   - [Introduction and Relational Databases](./src/introduction-and-relational-databases.md)
   - XML Data
-  - JSON Data
+  - [JSON Data](./src/json-data.md)
 - **Querying Relational Databases**
   - Relational Algebra
   - SQL
