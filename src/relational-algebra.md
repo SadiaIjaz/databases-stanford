@@ -10,8 +10,8 @@
 
 Examples: simple college admissions database
 
-Table 1: College(**cName**, state, enrollment)
-Table 2: Student(**sID**, sName, GPA, sizeHS)
-Table 3: Apply(**sID**, **cName**, **major**, decision)
+Table 1: College(**cName**, state, enrollment) <br>
+Table 2: Student(**sID**, sName, GPA, sizeHS) <br>
+Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
 
 ## Set Operators - Renaming - Notation
