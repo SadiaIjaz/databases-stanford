@@ -46,4 +46,18 @@ Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
     - Names and GPAs of students with sizeHS > 1000 who applied to CS and were rejected
     - π<sub>sName, GPA</sub>(σ<sub>student.sID = apply.sID ⋀ sizeHS > 1000 ⋀ major = 'cs' ⋀ decision = 'rejected'</sub> (Student x Apply))
 
+- **Natural Join** (`⋈` - bow tie)
+  - Enforce equality on all attributes with the same name
+  - Eliminate one copy of duplicate attributes/columns
+  - Examples:
+    - Names and GPAs of students with sizeHS > 1000 who applied to CS and were rejected
+    - π<sub>sName, GPA</sub>(σ<sub>sizeHS > 1000 ⋀ major = 'cs' ⋀ decision = 'rejected'</sub> (Student ⋈ Apply))
+    - Names and GPAs of students with sizeHS > 1000 who applied to CS at college with enrollment > 20,000 and were rejected
+    - π<sub>sName, GPA</sub>(σ<sub>sizeHS > 1000 ⋀ major = 'cs' ⋀ decision = 'rejected' ⋀ enrollment > 20,000</sub> (Student ⋈ (Apply ⋈ College)))
+
+- **Theta Join**
+  - Exp<sub>1</sub> ⋈<sub>𝚹</sub> Exp<sub>2</sub> ≡ σ<sub>𝚹</sub> (Exp<sub>1</sub> x <sub></sub> Exp<sub>2</sub>)
+  - Basic operation implemented in DBMS
+  - Term "join" often means theta join
+
 ## Set Operators - Renaming - Notation
