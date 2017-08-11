@@ -34,10 +34,16 @@ Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
   - Picks certain columns
   - Examples:
     - ID and decision of all applications
-    - π<sub>sID,decision</sub> Apply
+    - π<sub>sID, decision</sub> Apply
 
 - To pick both rows and columns
   - ID and name of students with GPA > 3.7
   - π<sub>sID, sName</sub>(σ<sub>GPA > 3.7</sub> Student)
+
+- **Cross-product**
+  - Combine two relations (aka Cartesian product)
+  - Example:
+    - Names and GPAs of students with sizeHS > 1000 who applied to CS and were rejected
+    - π<sub>sName, GPA</sub>(σ<sub>student.sID = apply.sID ⋀ sizeHS > 1000 ⋀ major = 'cs' ⋀ decision = 'rejected'</sub> (Student x Apply))
 
 ## Set Operators - Renaming - Notation
