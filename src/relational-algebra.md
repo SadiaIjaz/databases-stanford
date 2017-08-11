@@ -14,4 +14,30 @@ Table 1: College(**cName**, state, enrollment) <br>
 Table 2: Student(**sID**, sName, GPA, sizeHS) <br>
 Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
 
+- Simples query: relation name
+  - Ex: `Student` -> We'll get a copy of the Student relation
+- Use **operators** to filter, slice and combine relations
+
+### Operators
+- **Select**
+  - Picks a certain rows
+  - Is denotaded by a sigma (`σ`) with a subscript, that's a condition used to filter the rows that we extract from the relations.
+  - Examples:
+    - Students with GPA > 3.7
+    - σ<sub>GPA > 3.7</sub> Student
+    - Students with GPA > 3.7 and sizeHS < >
+    - σ<sub>GPA > 3.7 ⋀ sizeHS < 1000</sub> Student
+    - Applications to Stanford CS major
+    - σ<sub>GPA > 3.7 ⋀ sizeHS < 1000</sub> Student
+
+- **Project**
+  - Picks certain columns
+  - Examples:
+    - ID and decision of all applications
+    - π<sub>sID,decision</sub> Apply
+
+- To pick both rows and columns
+  - ID and name of students with GPA > 3.7
+  - π<sub>sID, sName</sub>(σ<sub>GPA > 3.7</sub> Student)
+
 ## Set Operators - Renaming - Notation
