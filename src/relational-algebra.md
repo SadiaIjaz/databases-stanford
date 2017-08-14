@@ -5,6 +5,8 @@
 - [Select, Project, Join](#select---project---join)
 - [Set Operators, Renaming, Notation](#set-operators---renaming---notation)
 
+> [Mathematical operators and symbols in Unicode](https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode)
+
 ## Select - Project - Join
 - Queries over relational databases operate on relations (tables) and they also produce relations as a result.
 
@@ -61,3 +63,15 @@ Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
   - Term "join" often means theta join
 
 ## Set Operators - Renaming - Notation
+
+- Relational algebra query (expression) on set of relations produces relation as a result
+
+Examples: simple college admissions database
+
+Table 1: College(**cName**, state, enrollment) <br>
+Table 2: Student(**sID**, sName, GPA, sizeHS) <br>
+Table 3: Apply(**sID**, **cName**, **major**, decision) <br>
+
+- **Union** operator
+  - Example: list of college and student names
+  - π<sub>cName</sub> College ⋃ π<sub>sName</sub> Student
