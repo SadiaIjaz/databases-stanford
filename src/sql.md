@@ -75,3 +75,35 @@ INSERT INTO student (sid, sname, gpa, size_hs) VALUES
 ```
 
 **Create table apply**
+```sql
+CREATE TABLE apply (
+  sid serial,
+  cname varchar (128),
+  major varchar (64),
+  decision char CHECK (decision in ('y', 'n'))
+);
+```
+
+**Populate table apply**
+```sql
+INSERT INTO apply (sid, cname, major, decision) VALUES
+  (123, 'Stanford', 'CS', 'y'),
+  (123, 'Stanford', 'EE', 'n'),
+  (123, 'Berkeley', 'CS', 'y'),
+  (123, 'Cornell', 'EE', 'y'),
+  (234, 'Berkeley', 'biology', 'n'),
+  (345, 'MIT', 'bioengineering', 'y'),
+  (345, 'Cornell', 'bioengineering', 'n'),
+  (345, 'Cornell', 'CS', 'y'),
+  (345, 'Cornell', 'EE', 'n'),
+  (678, 'Stanford', 'history', 'y'),
+  (987, 'Stanford', 'CS', 'y'),
+  (987, 'Berkeley', 'CS', 'y'),
+  (876, 'Stanford', 'CS', 'n'),
+  (876, 'MIT', 'biology', 'y'),
+  (876, 'MIT', 'marine biology', 'n'),
+  (765, 'Stanford', 'history', 'y'),
+  (765, 'Cornell', 'hisotry', 'n'),
+  (765, 'Cornell', 'psychology', 'y'),
+  (543, 'MIT', 'CS', 'n');
+```
