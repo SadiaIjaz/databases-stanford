@@ -107,3 +107,85 @@ INSERT INTO apply (sid, cname, major, decision) VALUES
   (765, 'Cornell', 'psychology', 'y'),
   (543, 'MIT', 'CS', 'n');
 ```
+
+First query:
+
+```sql
+SELECT sid, sname, gpa
+FROM student
+WHERE gpa > 3.6;
+```
+
+Result:
+```
+ sid | sname | gpa
+-----+-------+-----
+ 123 | Amy   | 3.9
+ 456 | Doris | 3.9
+ 678 | Fay   | 3.8
+ 987 | Helen | 3.7
+ 876 | Irene | 3.9
+ 654 | Amy   | 3.9
+(6 rows)
+```
+
+Second query combine two relations. Find the name of students and the major they applied.
+```sql
+SELECT sname, major
+FROM student, apply
+WHERE student.sid = apply.sid;
+```
+
+Result:
+```
+ sname |     major
+-------+----------------
+ Amy   | EE
+ Amy   | CS
+ Amy   | EE
+ Amy   | CS
+ Bob   | biology
+ Craig | EE
+ Craig | CS
+ Craig | bioengineering
+ Craig | bioengineering
+ Fay   | history
+ Helen | CS
+ Helen | CS
+ Irene | marine biology
+ Irene | biology
+ Irene | CS
+ Jay   | psychology
+ Jay   | hisotry
+ Jay   | history
+ Craig | CS
+(19 rows)
+```
+
+To eliminate duplicate results, add the `DISTINCT` keyword
+```sql
+SELECT DISTINCT sname, major
+FROM student, apply
+WHERE student.sid = apply.sid;
+```
+
+Result:
+```
+ sname |     major
+-------+----------------
+ Irene | marine biology
+ Fay   | history
+ Irene | CS
+ Craig | EE
+ Irene | biology
+ Craig | bioengineering
+ Craig | CS
+ Jay   | hisotry
+ Amy   | EE
+ Jay   | psychology
+ Helen | CS
+ Jay   | history
+ Bob   | biology
+ Amy   | CS
+(14 rows)
+```
