@@ -5,7 +5,7 @@
 ## Table of Contents
 - [Introduction to SQL](#introduction-to-sql)
 - [Basic SELECT Statement](#basic-select-statement)
-- []()
+- [Table Variables and Set Operators](#table-variables-and-set-operators)
 - []()
 - []()
 - []()
@@ -526,4 +526,152 @@ Result:
  654 | Amy    | 3.9 |    1000 |       3.90
  543 | Craig  | 3.4 |    2000 |       6.80
 (12 rows)
+```
+
+# Table Variables and Set Operators
+- Table variables are in the `FROM` clause and serve two uses:
+  1. Make queries more redable
+  1. Rename relations that are used in the FROM clause, particularly when we have two instances of the same relation.
+
+- Set operators:
+  - Union operator
+  - Intersect operator
+  - Except operator (minus operator)
+
+Query: Add a variable for each of the relation names.
+
+```sql
+SELECT s.sid, sname, gpa, a.cname, enrollment
+FROM student s, college c, apply a
+WHERE a.sid = s.sid
+AND a.cname = c.cname;
+```
+
+Result:
+
+```
+ sid | sname | gpa |  cname   | enrollment
+-----+-------+-----+----------+------------
+ 123 | Amy   | 3.9 | Cornell  |      21000
+ 123 | Amy   | 3.9 | Berkeley |      36000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 234 | Bob   | 3.6 | Berkeley |      36000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | MIT      |      10000
+ 678 | Fay   | 3.8 | Stanford |      15000
+ 987 | Helen | 3.7 | Berkeley |      36000
+ 987 | Helen | 3.7 | Stanford |      15000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | Stanford |      15000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Stanford |      15000
+ 543 | Craig | 3.4 | MIT      |      10000
+(19 rows)
+```
+
+Query: Look at where table variables are actually useful. When you need to have two instances of the same relation, you can have two different variables for the same relation.
+
+```sql
+SELECT s1.sid, s1.sname, s1.gpa, s2.sid, s2.sname, s2.gpa
+FROM student s1, student s2
+WHERE s1.gpa = s2.gpa;
+```
+
+Result:
+
+```
+ sid | sname  | gpa | sid | sname  | gpa
+-----+--------+-----+-----+--------+-----
+ 123 | Amy    | 3.9 | 654 | Amy    | 3.9
+ 123 | Amy    | 3.9 | 876 | Irene  | 3.9
+ 123 | Amy    | 3.9 | 456 | Doris  | 3.9
+ 123 | Amy    | 3.9 | 123 | Amy    | 3.9
+ 234 | Bob    | 3.6 | 234 | Bob    | 3.6
+ 345 | Craig  | 3.5 | 345 | Craig  | 3.5
+ 456 | Doris  | 3.9 | 654 | Amy    | 3.9
+ 456 | Doris  | 3.9 | 876 | Irene  | 3.9
+ 456 | Doris  | 3.9 | 456 | Doris  | 3.9
+ 456 | Doris  | 3.9 | 123 | Amy    | 3.9
+ 567 | Edward | 2.9 | 765 | Jay    | 2.9
+ 567 | Edward | 2.9 | 567 | Edward | 2.9
+ 678 | Fay    | 3.8 | 678 | Fay    | 3.8
+ 789 | Gary   | 3.4 | 543 | Craig  | 3.4
+ 789 | Gary   | 3.4 | 789 | Gary   | 3.4
+ 987 | Helen  | 3.7 | 987 | Helen  | 3.7
+ 876 | Irene  | 3.9 | 654 | Amy    | 3.9
+ 876 | Irene  | 3.9 | 876 | Irene  | 3.9
+ 876 | Irene  | 3.9 | 456 | Doris  | 3.9
+ 876 | Irene  | 3.9 | 123 | Amy    | 3.9
+ 765 | Jay    | 2.9 | 765 | Jay    | 2.9
+ 765 | Jay    | 2.9 | 567 | Edward | 2.9
+ 654 | Amy    | 3.9 | 654 | Amy    | 3.9
+ 654 | Amy    | 3.9 | 876 | Irene  | 3.9
+ 654 | Amy    | 3.9 | 456 | Doris  | 3.9
+ 654 | Amy    | 3.9 | 123 | Amy    | 3.9
+ 543 | Craig  | 3.4 | 543 | Craig  | 3.4
+ 543 | Craig  | 3.4 | 789 | Gary   | 3.4
+(28 rows)
+```
+
+Query: Previous query but with students that have different IDs.
+
+```sql
+SELECT s1.sid, s1.sname, s1.gpa, s2.sid, s2.sname, s2.gpa
+FROM student s1, student s2
+WHERE s1.gpa = s2.gpa
+AND s1.sid <> s2.sid;
+```
+
+Result:
+
+```
+ sid | sname  | gpa | sid | sname  | gpa
+-----+--------+-----+-----+--------+-----
+ 123 | Amy    | 3.9 | 654 | Amy    | 3.9
+ 123 | Amy    | 3.9 | 876 | Irene  | 3.9
+ 123 | Amy    | 3.9 | 456 | Doris  | 3.9
+ 456 | Doris  | 3.9 | 654 | Amy    | 3.9
+ 456 | Doris  | 3.9 | 876 | Irene  | 3.9
+ 456 | Doris  | 3.9 | 123 | Amy    | 3.9
+ 567 | Edward | 2.9 | 765 | Jay    | 2.9
+ 789 | Gary   | 3.4 | 543 | Craig  | 3.4
+ 876 | Irene  | 3.9 | 654 | Amy    | 3.9
+ 876 | Irene  | 3.9 | 456 | Doris  | 3.9
+ 876 | Irene  | 3.9 | 123 | Amy    | 3.9
+ 765 | Jay    | 2.9 | 567 | Edward | 2.9
+ 654 | Amy    | 3.9 | 876 | Irene  | 3.9
+ 654 | Amy    | 3.9 | 456 | Doris  | 3.9
+ 654 | Amy    | 3.9 | 123 | Amy    | 3.9
+ 543 | Craig  | 3.4 | 789 | Gary   | 3.4
+(16 rows)
+```
+
+Query: Previous query but with students that have different IDs AND without repeat them in the inverse order (using `<` to do the trick).
+
+```sql
+SELECT s1.sid, s1.sname, s1.gpa, s2.sid, s2.sname, s2.gpa
+FROM student s1, student s2
+WHERE s1.gpa = s2.gpa
+AND s1.sid < s2.sid;
+```
+
+Result:
+
+```
+ sid | sname  | gpa | sid | sname | gpa
+-----+--------+-----+-----+-------+-----
+ 123 | Amy    | 3.9 | 654 | Amy   | 3.9
+ 123 | Amy    | 3.9 | 876 | Irene | 3.9
+ 123 | Amy    | 3.9 | 456 | Doris | 3.9
+ 456 | Doris  | 3.9 | 654 | Amy   | 3.9
+ 456 | Doris  | 3.9 | 876 | Irene | 3.9
+ 567 | Edward | 2.9 | 765 | Jay   | 2.9
+ 654 | Amy    | 3.9 | 876 | Irene | 3.9
+ 543 | Craig  | 3.4 | 789 | Gary  | 3.4
+(8 rows)
 ```
