@@ -8,7 +8,7 @@
   - [JSON Data](./src/json-data.md)
 - **Querying Relational Databases**
   - [Relational Algebra](./src/relational-algebra.md)
-  - SQL
+  - [SQL](./src/sql.md)
 - **Querying XML Databases**
   - XPath and XQuery
   - XSLT
