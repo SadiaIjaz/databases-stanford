@@ -8,3 +8,4 @@
 - [Table Variables and Set Operators](./table-variables-and-set-operators.md)
 - [Subqueries in WHERE clause](./subqueries-in-where-clause.md)
 - [Subqueries in FROM and SELECT](./subqueries-in-from-and-select-clause.md)
+- [The JOIN Family of Operators](./join-family-of-operators.md)

@@ -84,7 +84,7 @@ INSERT INTO apply (sid, cname, major, decision) VALUES
   (876, 'MIT', 'biology', 'y'),
   (876, 'MIT', 'marine biology', 'n'),
   (765, 'Stanford', 'history', 'y'),
-  (765, 'Cornell', 'hisotry', 'n'),
+  (765, 'Cornell', 'history', 'n'),
   (765, 'Cornell', 'psychology', 'y'),
   (543, 'MIT', 'CS', 'n');
 ```
