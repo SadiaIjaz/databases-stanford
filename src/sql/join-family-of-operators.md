@@ -117,66 +117,172 @@ AND cname = 'Stanford';
 (2 rows)
 ```
 
-> **OBS**: we can add the `WHERE` clauses in the `ON` "space". One hint when we don't do this is by implicit say: "here is the condition that really applies to the combinations of the tuples, and the rest of the conditions apply to separete attributes".
+> **OBS**: we can add the `WHERE` clauses in the `ON` "space". One hint when we don't do this is the same as implicitly say: "here is the condition that really applies to the combinations of the tuples, and the rest of the conditions apply to separate attributes".
 
-**Query**:
+**Query**: Project the student ID, student name, GPA, college name and enrollment combinying three tables (apply, student and college), and combine tuples only when student ID matches apply ID, and the apply cname matches the college cname.
 
 ```sql
-
+SELECT student.sid, student.sname, gpa, college.cname, enrollment
+FROM student, college, apply
+WHERE student.sid = apply.sid
+AND college.cname = apply.cname;
 ```
 
 **Result**:
 
 ```
-
+ sid | sname | gpa |  cname   | enrollment
+-----+-------+-----+----------+------------
+ 123 | Amy   | 3.9 | Cornell  |      21000
+ 123 | Amy   | 3.9 | Berkeley |      36000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 234 | Bob   | 3.6 | Berkeley |      36000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | MIT      |      10000
+ 678 | Fay   | 3.8 | Stanford |      15000
+ 987 | Helen | 3.7 | Berkeley |      36000
+ 987 | Helen | 3.7 | Stanford |      15000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | Stanford |      15000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Stanford |      15000
+ 543 | Craig | 3.4 | MIT      |      10000
+(19 rows)
 ```
 
-**Query**:
+**Query**: equal to previous
 
 ```sql
-
+SELECT student.sid, student.sname, gpa, college.cname, enrollment
+FROM (student JOIN apply ON student.sid = apply.sid)
+JOIN college
+ON college.cname = apply.cname;
 ```
 
 **Result**:
 
 ```
-
+ sid | sname | gpa |  cname   | enrollment
+-----+-------+-----+----------+------------
+ 123 | Amy   | 3.9 | Cornell  |      21000
+ 123 | Amy   | 3.9 | Berkeley |      36000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 123 | Amy   | 3.9 | Stanford |      15000
+ 234 | Bob   | 3.6 | Berkeley |      36000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | Cornell  |      21000
+ 345 | Craig | 3.5 | MIT      |      10000
+ 678 | Fay   | 3.8 | Stanford |      15000
+ 987 | Helen | 3.7 | Berkeley |      36000
+ 987 | Helen | 3.7 | Stanford |      15000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | MIT      |      10000
+ 876 | Irene | 3.9 | Stanford |      15000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Cornell  |      21000
+ 765 | Jay   | 2.9 | Stanford |      15000
+ 543 | Craig | 3.4 | MIT      |      10000
+(19 rows)
 ```
+
+Reminder of relational algebra: the natural join takes two relations that have column names in common and performs a cross product that only keeps the tuples where the tuples have the same value, in those common attribute names.
 
 **Query**:
 
 ```sql
+SELECT DISTINCT sname, major
+FROM student NATURAL JOIN apply;
 
+# Equals to
+# SELECT DISTINCT sname, major
+# FROM student, apply
+# WHERE student.sid = apply.sid;
 ```
 
 **Result**:
 
 ```
-
+ sname |     major
+-------+----------------
+ Irene | marine biology
+ Fay   | history
+ Irene | CS
+ Craig | EE
+ Irene | biology
+ Craig | bioengineering
+ Craig | CS
+ Amy   | EE
+ Jay   | psychology
+ Helen | CS
+ Jay   | history
+ Bob   | biology
+ Amy   | CS
+(13 rows)
 ```
 
 **Query**:
 
 ```sql
-
+SELECT * FROM student NATURAL JOIN apply;
 ```
 
 **Result**:
 
 ```
-
+ sid | sname | gpa | size_hs |  cname   |     major      | decision
+-----+-------+-----+---------+----------+----------------+----------
+ 123 | Amy   | 3.9 |    1000 | Cornell  | EE             | y
+ 123 | Amy   | 3.9 |    1000 | Berkeley | CS             | y
+ 123 | Amy   | 3.9 |    1000 | Stanford | EE             | n
+ 123 | Amy   | 3.9 |    1000 | Stanford | CS             | y
+ 234 | Bob   | 3.6 |    1500 | Berkeley | biology        | n
+ 345 | Craig | 3.5 |     500 | Cornell  | EE             | n
+ 345 | Craig | 3.5 |     500 | Cornell  | CS             | y
+ 345 | Craig | 3.5 |     500 | Cornell  | bioengineering | n
+ 345 | Craig | 3.5 |     500 | MIT      | bioengineering | y
+ 678 | Fay   | 3.8 |     200 | Stanford | history        | y
+ 987 | Helen | 3.7 |     800 | Berkeley | CS             | y
+ 987 | Helen | 3.7 |     800 | Stanford | CS             | y
+ 876 | Irene | 3.9 |     400 | MIT      | marine biology | n
+ 876 | Irene | 3.9 |     400 | MIT      | biology        | y
+ 876 | Irene | 3.9 |     400 | Stanford | CS             | n
+ 765 | Jay   | 2.9 |    1500 | Stanford | history        | y
+ 765 | Jay   | 2.9 |    1500 | Cornell  | psychology     | y
+ 765 | Jay   | 2.9 |    1500 | Cornell  | history        | n
+ 543 | Craig | 3.4 |    2000 | MIT      | CS             | n
+(19 rows)
 ```
+
+There is a feature that goes along with the join operator in SQL that's actually considered best pratice than using the natural join and it's called the `USING` clause.
+
+The using clause explicitly lists the attributes that should be equated across the two relations.
+
+In real applications, there can also be often 40, 50, even a hundred attributes in a relationship, so there is a high chance that you really could have attributes with the same name but aren't meant to be equated.
 
 **Query**:
 
 ```sql
-
+SELECT sname, gpa
+FROM student JOIN apply USING(sid)
+WHERE size_hs < 1000
+AND major = 'CS'
+AND cname = 'Stanford';
 ```
 
 **Result**:
 
 ```
-
+ sname | gpa
+-------+-----
+ Helen | 3.7
+ Irene | 3.9
+(2 rows)
 ```
 
 **Query**:
