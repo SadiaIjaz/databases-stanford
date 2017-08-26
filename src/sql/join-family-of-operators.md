@@ -285,98 +285,174 @@ AND cname = 'Stanford';
 (2 rows)
 ```
 
-**Query**:
+**Query**: Combine two instances of the student relation in order to find pairs of students that have the same GPA. Project students' ID, name and GPA.
 
 ```sql
-
+SELECT s1.sid, s1.sname, s1.gpa, s2.sid, s2.sname, s2.gpa
+FROM student s1 JOIN student s2 USING(gpa)
+WHERE s1.sid < s2.sid;
 ```
 
 **Result**:
 
 ```
-
+ sid | sname  | gpa | sid | sname | gpa
+-----+--------+-----+-----+-------+-----
+ 123 | Amy    | 3.9 | 654 | Amy   | 3.9
+ 123 | Amy    | 3.9 | 876 | Irene | 3.9
+ 123 | Amy    | 3.9 | 456 | Doris | 3.9
+ 456 | Doris  | 3.9 | 654 | Amy   | 3.9
+ 456 | Doris  | 3.9 | 876 | Irene | 3.9
+ 567 | Edward | 2.9 | 765 | Jay   | 2.9
+ 654 | Amy    | 3.9 | 876 | Irene | 3.9
+ 543 | Craig  | 3.4 | 789 | Gary  | 3.4
+(8 rows)
 ```
 
-**Query**:
+**Query**: Show name and id of students, and the college name and major where they applied to.
 
 ```sql
-
+SELECT sname, sid, cname, major
+FROM student JOIN apply USING(sid);
 ```
 
 **Result**:
 
 ```
-
+ sname | sid |  cname   |     major
+-------+-----+----------+----------------
+ Amy   | 123 | Cornell  | EE
+ Amy   | 123 | Berkeley | CS
+ Amy   | 123 | Stanford | EE
+ Amy   | 123 | Stanford | CS
+ Bob   | 234 | Berkeley | biology
+ Craig | 345 | Cornell  | EE
+ Craig | 345 | Cornell  | CS
+ Craig | 345 | Cornell  | bioengineering
+ Craig | 345 | MIT      | bioengineering
+ Fay   | 678 | Stanford | history
+ Helen | 987 | Berkeley | CS
+ Helen | 987 | Stanford | CS
+ Irene | 876 | MIT      | marine biology
+ Irene | 876 | MIT      | biology
+ Irene | 876 | Stanford | CS
+ Jay   | 765 | Stanford | history
+ Jay   | 765 | Cornell  | psychology
+ Jay   | 765 | Cornell  | history
+ Craig | 543 | MIT      | CS
+(19 rows)
 ```
 
-**Query**:
+**Query**: Using the previous query, we also want in our result the information about students who haven't yet applied anywhere. To do this, we need to use the clause `LEFT OUTER JOIN`. We can omit the `OUTER` keyword.
 
 ```sql
-
+SELECT sname, sid, cname, major
+FROM student LEFT JOIN apply USING(sid);
 ```
 
 **Result**:
 
 ```
-
+ sname  | sid |  cname   |     major
+--------+-----+----------+----------------
+ Amy    | 123 | Cornell  | EE
+ Amy    | 123 | Berkeley | CS
+ Amy    | 123 | Stanford | EE
+ Amy    | 123 | Stanford | CS
+ Bob    | 234 | Berkeley | biology
+ Craig  | 345 | Cornell  | EE
+ Craig  | 345 | Cornell  | CS
+ Craig  | 345 | Cornell  | bioengineering
+ Craig  | 345 | MIT      | bioengineering
+ Doris  | 456 |          |
+ Edward | 567 |          |
+ Fay    | 678 | Stanford | history
+ Gary   | 789 |          |
+ Helen  | 987 | Berkeley | CS
+ Helen  | 987 | Stanford | CS
+ Irene  | 876 | MIT      | marine biology
+ Irene  | 876 | MIT      | biology
+ Irene  | 876 | Stanford | CS
+ Jay    | 765 | Stanford | history
+ Jay    | 765 | Cornell  | psychology
+ Jay    | 765 | Cornell  | history
+ Amy    | 654 |          |
+ Craig  | 543 | MIT      | CS
+(23 rows)
 ```
 
-**Query**:
+**Query**: Retain apply tuples whether or not they matched a student tuple.
 
 ```sql
-
+SELECT sname, sid, cname, major
+FROM student RIGHT JOIN apply USING(sid);
 ```
 
 **Result**:
 
 ```
-
+ sname | sid |  cname   |     major
+-------+-----+----------+----------------
+ Amy   | 123 | Cornell  | EE
+ Amy   | 123 | Berkeley | CS
+ Amy   | 123 | Stanford | EE
+ Amy   | 123 | Stanford | CS
+ Bob   | 234 | Berkeley | biology
+ Craig | 345 | Cornell  | EE
+ Craig | 345 | Cornell  | CS
+ Craig | 345 | Cornell  | bioengineering
+ Craig | 345 | MIT      | bioengineering
+ Fay   | 678 | Stanford | history
+ Helen | 987 | Berkeley | CS
+ Helen | 987 | Stanford | CS
+ Irene | 876 | MIT      | marine biology
+ Irene | 876 | MIT      | biology
+ Irene | 876 | Stanford | CS
+ Jay   | 765 | Stanford | history
+ Jay   | 765 | Cornell  | psychology
+ Jay   | 765 | Cornell  | history
+ Craig | 543 | MIT      | CS
+       | 321 | MIT      | psychology
+       | 321 | MIT      | history
+(21 rows)
 ```
 
-**Query**:
+**Query**: Have unmatched tuples from both left and right appearing in the result.
 
 ```sql
-
+SELECT sname, sid, cname, major
+FROM student FULL JOIN apply USING(sid);
 ```
 
 **Result**:
 
 ```
-
-```
-
-**Query**:
-
-```sql
-
-```
-
-**Result**:
-
-```
-
-```
-
-**Query**:
-
-```sql
-
-```
-
-**Result**:
-
-```
-
-```
-
-**Query**:
-
-```sql
-
-```
-
-**Result**:
-
-```
-
+ sname  | sid |  cname   |     major
+--------+-----+----------+----------------
+ Amy    | 123 | Cornell  | EE
+ Amy    | 123 | Berkeley | CS
+ Amy    | 123 | Stanford | EE
+ Amy    | 123 | Stanford | CS
+ Bob    | 234 | Berkeley | biology
+ Craig  | 345 | Cornell  | EE
+ Craig  | 345 | Cornell  | CS
+ Craig  | 345 | Cornell  | bioengineering
+ Craig  | 345 | MIT      | bioengineering
+ Doris  | 456 |          |
+ Edward | 567 |          |
+ Fay    | 678 | Stanford | history
+ Gary   | 789 |          |
+ Helen  | 987 | Berkeley | CS
+ Helen  | 987 | Stanford | CS
+ Irene  | 876 | MIT      | marine biology
+ Irene  | 876 | MIT      | biology
+ Irene  | 876 | Stanford | CS
+ Jay    | 765 | Stanford | history
+ Jay    | 765 | Cornell  | psychology
+ Jay    | 765 | Cornell  | history
+ Amy    | 654 |          |
+ Craig  | 543 | MIT      | CS
+        | 321 | MIT      | psychology
+        | 321 | MIT      | history
+(25 rows)
 ```
