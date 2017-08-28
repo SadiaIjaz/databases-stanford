@@ -143,100 +143,204 @@ FROM (
 (1 row)
 ```
 
-**Query**:
+The `GROUP BY` clause is used only with aggregation.
+
+**Query**: Find the number of applicants to each college using grouping.
 
 ```sql
-
+SELECT cname, count(*)
+FROM apply
+GROUP BY cname;
 ```
 
 **Result**:
 
 ```
-
+  cname   | count
+----------+-------
+ MIT      |     6
+ Cornell  |     6
+ Berkeley |     3
+ Stanford |     6
+(4 rows)
 ```
 
-**Query**:
+**Query**: find the total enrollment of college students for each state.
 
 ```sql
-
+SELECT state, SUM(enrollment)
+FROM college
+GROUP BY state;
 ```
 
 **Result**:
 
 ```
-
+ state |  sum
+-------+-------
+ CA    | 51000
+ NY    | 21000
+ MA    | 10000
+(3 rows)
 ```
 
-**Query**:
+**Query**: Computes for each college and major combination, the minimum and maximum GPA for the students who have applied to that college.
 
 ```sql
-
+SELECT cname, major, MIN(gpa), MAX(gpa)
+FROM student JOIN apply USING(sid)
+GROUP BY cname, major;
 ```
 
 **Result**:
 
 ```
-
+  cname   |     major      | min | max
+----------+----------------+-----+-----
+ Cornell  | psychology     | 2.9 | 2.9
+ MIT      | biology        | 3.9 | 3.9
+ Cornell  | history        | 2.9 | 2.9
+ Stanford | EE             | 3.9 | 3.9
+ Stanford | CS             | 3.7 | 3.9
+ Berkeley | CS             | 3.7 | 3.9
+ Berkeley | biology        | 3.6 | 3.6
+ MIT      | marine biology | 3.9 | 3.9
+ Stanford | history        | 2.9 | 3.8
+ Cornell  | CS             | 3.5 | 3.5
+ MIT      | CS             | 3.4 | 3.4
+ Cornell  | bioengineering | 3.5 | 3.5
+ MIT      | bioengineering | 3.5 | 3.5
+ Cornell  | EE             | 3.5 | 3.9
+(14 rows)
 ```
 
-**Query**:
+**Query**: Find the information about the spread of GPAs for each college. What the difference between the maximum and minimum.
 
 ```sql
-
+SELECT mx - mn as "GPA Spread"
+FROM (
+  SELECT cname, major, MIN(gpa) as mn, MAX(gpa) as mx
+  FROM student JOIN apply USING(sid)
+  GROUP BY cname, major
+) M;
 ```
 
 **Result**:
 
 ```
-
+ GPA Spread
+------------
+          0
+          0
+          0
+          0
+        0.2
+        0.2
+          0
+          0
+        0.9
+          0
+          0
+          0
+          0
+        0.4
+(14 rows)
 ```
 
-**Query**:
+**Query**: find the largest spread based on the last query.
 
 ```sql
-
+SELECT MAX(mx - mn) as "GPA Spread"
+FROM (
+  SELECT cname, major, MIN(gpa) as mn, MAX(gpa) as mx
+  FROM student JOIN apply USING(sid)
+  GROUP BY cname, major
+) M;
 ```
 
 **Result**:
 
 ```
-
+ GPA Spread
+------------
+        0.9
+(1 row)
 ```
 
-**Query**:
+**Query**: Find the number of colleges that have been applied for the number of colleges that have been applied to by each student.
 
 ```sql
-
+SELECT sid, sname, count(distinct cname)
+FROM student JOIN apply USING(sid)
+GROUP BY sid;
 ```
 
 **Result**:
 
 ```
-
+ sid | sname | count
+-----+-------+-------
+ 123 | Amy   |     3
+ 234 | Bob   |     1
+ 345 | Craig |     2
+ 543 | Craig |     1
+ 678 | Fay   |     1
+ 765 | Jay   |     2
+ 876 | Irene |     2
+ 987 | Helen |     2
+(8 rows)
 ```
 
-**Query**:
+**Query**: last query with students that didn't applied anywhere.
 
 ```sql
-
+SELECT sid, sname, count(distinct cname)
+FROM student JOIN apply USING(sid)
+GROUP BY sid
+UNION
+SELECT sid, sname, 0
+FROM student
+WHERE sid NOT IN (select sid FROM apply);
 ```
 
 **Result**:
 
 ```
-
+ sid | sname  | count
+-----+--------+-------
+ 876 | Irene  |     2
+ 456 | Doris  |     0
+ 789 | Gary   |     0
+ 678 | Fay    |     1
+ 123 | Amy    |     3
+ 234 | Bob    |     1
+ 543 | Craig  |     1
+ 987 | Helen  |     2
+ 654 | Amy    |     0
+ 567 | Edward |     0
+ 765 | Jay    |     2
+ 345 | Craig  |     2
+(12 rows)
 ```
 
-**Query**:
+The `HAVING` clause only works with aggregation. Allows us apply conditions to the results of aggregate functions.
+
+**Query**: Find all colleges that had less than 5 applicants
 
 ```sql
-
+SELECT cname
+FROM apply
+GROUP BY cname
+HAVING count(*) < 5;
 ```
 
 **Result**:
 
 ```
-
+  cname
+----------
+ Berkeley
+(1 row)
 ```
 
 **Query**:
