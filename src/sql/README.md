@@ -10,3 +10,5 @@
 - [Subqueries in FROM and SELECT](./subqueries-in-from-and-select-clause.md)
 - [The JOIN Family of Operators](./join-family-of-operators.md)
 - [Aggregation](./aggregation.md)
+- [NULL values](./null-values.md)
+- [Data Modification Statements](./data-modification-statements.md)
